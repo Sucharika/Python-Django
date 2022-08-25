@@ -1,0 +1,25 @@
+{% extends 'core/base.html' %}
+
+{% block title %} Home {% endblock title %}
+
+{% block content %}<h1 style="text-align: center;"> Blogs </h1>
+<hr>
+{%if blogs %}
+{% for blog in blogs %}
+    <h3>{{blog.title}}</h3><br>
+    <h6>{{blog.content}}</h6><br>
+    <small>{{blog.date_posted}}- {{blog.user.username}}</small>
+    {% if user.is_superuser or user.id == blog.user.id %}
+        <a href ="{% url 'edit-blog' id=blog.id %}">Edit</a>
+        <a href="{%url 'delete-blog' id=blog.id%}">Delete</a>
+    {% endif %}
+    <hr>
+{% endfor %}
+{% else %}
+<h3 style="text-align: center;"> No Items found </h3>
+
+{% endif %}
+<div class ="container">
+<a href ="{% url 'add-blog' %}" class="btn btn-primary" style="text-align: center;">Add</a>
+</div>
+{% endblock content %}
